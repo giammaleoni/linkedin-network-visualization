@@ -1,6 +1,9 @@
 # linkedin-network-visualization
 Visualize your LinkedIn connections in a network graph and see where your connections work.
 
+# Originally forked by
+https://github.com/Thanh-To/linkedin-network-visualization
+
 [Live DEMO](https://thanh-to.github.io/linkedin-connections-visualization.html)
 
 This is an entry to [HackCamp 2020](https://devpost.com/software/linkedin-connections-visualization).

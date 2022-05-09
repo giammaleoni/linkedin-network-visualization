@@ -22,7 +22,7 @@
     Export your Connections from LinkedIn</a></p>
 <p>Then import the csv file here: *</p>
 <input id="csv" type="file">
-<p>* you may need to remove the LinkedIn's notes from the csv file </p>
+<p>* Don't want to generate your own connections.csv? Download an example with random names <a href="https://thanh-to.github.io/Connections-random-names.csv">here</a></p> 
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -35,40 +35,40 @@
     readFile = function () {
         var reader = new FileReader();
         reader.onload = function () {
-            connections = $.csv.toObjects(reader.result);
-            console.log(connections);
+            var fileContent  = reader.result.split('\n').slice(3).join('\n');
+            connections = $.csv.toObjects(fileContent);
 
             nodes.push({
-                "firstName": "You",
-                "lastName": "",
-                "name": "You",
+                "firstName": "Me",
+                "lastName": " ",
+                "name": "Me",
                 "company": ""
             });
 
             for (source of connections) {
-                sourceName = source["First Name"] + " " + source["Last Name"];
+					sourceName = source["First Name"] + " " + source["Last Name"];
 
-                links.push({
-                    "source": "You",
-                    "target": sourceName
-                });
+					links.push({
+					    "source": "Me",
+					    "target": sourceName
+					});
 
-                nodes.push({
-                    "firstName": source["First Name"],
-                    "lastName": source["Last Name"],
-                    "name": sourceName,
-                    "company": source["Company"]
-                });
+					nodes.push({
+						"firstName": source["First Name"],
+						"lastName": source["Last Name"],
+						"name": sourceName,
+						"company": source["Company"]
+					});
 
-                for (target of connections) {
-                    targetName = target["First Name"] + " " + target["Last Name"];
-                    if (sourceName != targetName && source["Company"] == target["Company"]) {
-                        links.push({
-                            "source": sourceName,
-                            "target": targetName
-                        });
-                    }
-                }
+					for (target of connections) {
+						targetName = target["First Name"] + " " + target["Last Name"];
+						if (sourceName != targetName && source["Company"] == target["Company"]) {
+							links.push({
+								"source": sourceName,
+								"target": targetName
+							});
+						}
+					}
             }
 
             graph = {
@@ -76,7 +76,6 @@
                 "links": links
             }
 
-            console.log(graph);
             render(graph);
 
         };
@@ -129,7 +128,8 @@
 
         var lables = node.append("text")
             .text(function (d) {
-                return d.name;
+                //return d.name;    //alternative 1: uncomment this to display full name
+				return d.firstName; //alternative 2: uncomment this to display just firstnames (for privacy)
             })
             .attr('x', 6)
             .attr('y', 3);
